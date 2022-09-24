@@ -1,5 +1,4 @@
-# здесь модель SQLAlchemy для сущности, также могут быть дополнительные методы работы с моделью (но не с базой)
-from setup_db import db
+from app.setup_db import db
 from marshmallow import Schema, fields
 
 
@@ -43,6 +42,5 @@ class MovieSchema(Schema):
     trailer = fields.String()
     year = fields.Integer()
     rating = fields.Float()
-    genre = fields.Pluck("GenreSchema", "Genre")
-    director = fields.Pluck("DirectorSchema", "Director")
-
+    genre = fields.Pluck("GenreSchema", "name")
+    director = fields.Pluck("DirectorSchema", "name")
