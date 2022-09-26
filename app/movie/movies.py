@@ -1,22 +1,28 @@
 from flask_restx import Namespace, Resource
-
 from app.dao.models import Movie, MovieSchema
+from app.dao.movie_dao import MovieDAO
+from flask import request
 
 movie_ns = Namespace('movies')
 
-movie_schema = MovieSchema()
-movies_schema = MovieSchema(many=True)
+movie_dao = MovieDAO(Movie, MovieSchema)
+
+
 
 
 @movie_ns.route('/')
 class MoviesView(Resource):
     def get(self):
         """Получаем список всех фильмов"""
-        movies = Movie.query.all()
-        return movies_schema.dump(movies), 200
+        movies = movie_dao.get_all()
+        return movies, 200
 
     def post(self):
-        """Добовление фильма"""
+        """Добавление фильма"""
+        req_json = request.json
+        print(type(req_json))
+        movie_dao.add_movie(**req_json)
+
         return "", 201
 
 
