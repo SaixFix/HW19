@@ -7,6 +7,7 @@ movie_ns = Namespace('movies')
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
 
+
 @movie_ns.route('/')
 class MoviesView(Resource):
     def get(self):
@@ -35,7 +36,3 @@ class MovieView(Resource):
 
     def delete(self, id):
         """Удаление по id"""
-
-
-
-
