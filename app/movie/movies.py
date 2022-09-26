@@ -21,9 +21,10 @@ class MoviesView(Resource):
         """Добавление фильма"""
         req_json = request.json
         print(type(req_json))
-        movie_dao.add_movie(**req_json)
-
-        return "", 201
+        print(req_json)
+        print(type(req_json['rating']))
+        movie_dao.add_movie(req_json)
+        return f"{req_json['title']}", 201
 
 
 @movie_ns.route('/<int:id>')

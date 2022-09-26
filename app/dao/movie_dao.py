@@ -17,7 +17,7 @@ class MovieDAO:
     def add_movie(self, data):
         """Получаем json, добавляем новый фильм в бд"""
         model = self.model
-        movie = model(data)
+        movie = model(**data)
         with db.session.begin():
             db.session.add(movie)
 
