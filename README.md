@@ -1,2 +1,2 @@
 # homework from 18 lesson
-Домашняя работа по fask+rerstx+marshmellow
+Домашняя работа по flask+rerstx+marshmellow
