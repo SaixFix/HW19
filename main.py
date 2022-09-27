@@ -3,9 +3,9 @@ from flask_restx import Api
 from app.setup_db import db
 
 from app.config import Config
-from app.directors.directors import director_ns
-from app.genre.genres import genre_ns
-from app.movie.movies import movie_ns
+from app.views.directors import director_ns
+from app.views.genres import genre_ns
+from app.views.movies import movie_ns
 
 
 def create_app(config: Config) -> Flask:
