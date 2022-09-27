@@ -1,7 +1,6 @@
 from flask_restx import Namespace, Resource
 from flask import request
 from app.dao.genre_dao import GenreDAO
-from app.dao.models import GenreSchema
 from app.dao.models import Genre, GenreSchema
 
 
