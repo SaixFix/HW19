@@ -8,8 +8,6 @@ movie_ns = Namespace('movies')
 movie_dao = MovieDAO(Movie, MovieSchema)
 
 
-
-
 @movie_ns.route('/')
 class MoviesView(Resource):
     def get(self):
@@ -20,9 +18,6 @@ class MoviesView(Resource):
     def post(self):
         """Добавление фильма"""
         req_json = request.json
-        print(type(req_json))
-        print(req_json)
-        print(type(req_json['rating']))
         movie_dao.add_movie(req_json)
         return f" Фильм {req_json['title']} добавлен", 201
 
@@ -36,12 +31,15 @@ class MovieView(Resource):
             return movie, 404
         return movie, 200
 
-
-
-
-    def put(self, id):
+    def put(self, uid):
         """Обновление фильма по id"""
-        return "", 200
+        req_json = request.json
+        print(type(req_json))
+        movie_dao.put_movie(uid, req_json)
+        return f" Фильм {req_json['title']} обновлен", 200
 
-    def delete(self, id):
+    def delete(self, uid):
         """Удаление по id"""
+        movie_dao.delete_film(uid)
+        return "", 204
+

@@ -28,22 +28,22 @@ class MovieDAO:
         movie = model.query.filter(model.id == uid).one()
 
         if "genre_id" in data:
-            model.genre_id = data.get("title")
+            movie.genre_id = data.get("genre_id")
         if "year" in data:
-            model.year = data.get("year")
+            movie.year = data.get("year")
         if "title" in data:
-            model.year = data.get("title")
+            movie.title = data.get("title")
         if "rating" in data:
-            model.year = data.get("rating")
+            movie.rating = data.get("rating")
         if "director_id" in data:
-            model.year = data.get("director_id")
+            movie.director_id = data.get("director_id")
         if "trailer" in data:
-            model.year = data.get("trailer")
+            movie.trailer = data.get("trailer")
         if "description" in data:
-            model.year = data.get("description")
+            movie.description = data.get("description")
 
-        with db.session.begin():
-            db.session.add(movie)
+        db.session.add(movie)
+        db.session.commit()
 
     def get_film_by_id(self, uid: int) -> dict:
         """Получаем фильм по id либо ошибка в str"""
@@ -54,6 +54,14 @@ class MovieDAO:
             return schema().dump(movie)
         except Exception as error:
             return str(error)
+
+    def delete_film(self, uid: int):
+        """Удаляем фильм по id"""
+        model = self.model
+        movie = model.query.filter(model.id == uid).one()
+        db.session.delete(movie)
+        db.session.commit()
+
 
 
 
