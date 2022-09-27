@@ -24,18 +24,20 @@ class MoviesView(Resource):
         print(req_json)
         print(type(req_json['rating']))
         movie_dao.add_movie(req_json)
-        return f"{req_json['title']}", 201
+        return f" Фильм {req_json['title']} добавлен", 201
 
 
-@movie_ns.route('/<int:id>')
+@movie_ns.route('/<int:uid>')
 class MovieView(Resource):
-    def get(self, id):
+    def get(self, uid):
         """Получаем фильм по id"""
-        try:
-            movie = Movie.query.filter(Movie.id == id).one()
-            return movie_schema.dump(movie), 200
-        except Exception as error:
-            return str(error), 404
+        movie = movie_dao.get_film_by_id(uid)
+        if type(movie) != dict:
+            return movie, 404
+        return movie, 200
+
+
+
 
     def put(self, id):
         """Обновление фильма по id"""
