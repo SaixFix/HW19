@@ -1,5 +1,3 @@
-import json
-
 from app.setup_db import db
 
 

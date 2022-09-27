@@ -18,9 +18,9 @@ def create_app(config: Config) -> Flask:
 def configure_app(application: Flask):
     db.init_app(application)
     api = Api(app)
+    api.add_namespace(movie_ns)
     api.add_namespace(director_ns)
     api.add_namespace(genre_ns)
-    api.add_namespace(movie_ns)
 
 
 app = create_app(Config())

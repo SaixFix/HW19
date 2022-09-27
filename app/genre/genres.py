@@ -1,34 +1,49 @@
 from flask_restx import Namespace, Resource
+from flask import request
+from app.dao.genre_dao import GenreDAO
 from app.dao.models import GenreSchema
+from app.dao.models import Genre, GenreSchema
+
 
 genre_ns = Namespace('genres')
 
 genre_schema = GenreSchema()
 genres_schema = GenreSchema(many=True)
+genres_dao = GenreDAO(Genre, GenreSchema)
 
 
 @genre_ns.route('/')
 class GenresView(Resource):
     def get(self):
-        """Возвращает список всех жанров"""
-        return "", 200
+        """Получаем список всех жанров"""
+        genres = genres_dao.get_all()
+        return genres, 200
 
     def post(self):
-        """Доюовляет жанр"""
-        return "", 201
+        """Добавление жанра"""
+        req_json = request.json
+        genres_dao.add_genre(req_json)
+        return f" Жанр {req_json['name']} добавлен", 201
 
 
-@genre_ns.route('/<int:id>')
+@genre_ns.route('/<int:uid>')
 class GenreView(Resource):
-    def get(self, id):
+    def get(self, uid):
         """Возвращает жанр по id"""
-        return "", 200
+        genre = genres_dao.get_genre_by_id(uid)
+        if type(genre) != dict:
+            return genre, 404
+        return genre, 200
 
-    def put(self, id):
+    def put(self, uid):
         """Обновляет жанр по id"""
-        return "", 200
+        req_json = request.json
+        print(type(req_json))
+        genres_dao.put_genre(uid, req_json)
+        return f" Жанр {req_json['name']} обновлен", 200
 
-    def delete(self, id):
+    def delete(self, uid):
         """Удаляет жанр по id"""
+        genres_dao.delete_genre(uid)
         return "", 204
 
