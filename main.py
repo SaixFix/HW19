@@ -6,6 +6,7 @@ from app.config import Config
 from app.views.directors import director_ns
 from app.views.genres import genre_ns
 from app.views.movies import movie_ns
+from app.views.users import user_ns
 
 
 def create_app(config: Config) -> Flask:
@@ -21,6 +22,7 @@ def configure_app(application: Flask):
     api.add_namespace(movie_ns)
     api.add_namespace(director_ns)
     api.add_namespace(genre_ns)
+    api.add_namespace(user_ns)
 
 
 app = create_app(Config())
