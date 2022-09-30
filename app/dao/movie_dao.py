@@ -3,8 +3,9 @@ from app.setup_db import db
 
 class MovieDAO:
 
-    def __init__(self, model, schema):
-        """Получает модель и схему"""
+    def __init__(self, model, schema, session):
+        """Получает модель, схему и сессию"""
+        self.session = session
         self.model = model
         self.schema = schema
 
@@ -17,8 +18,8 @@ class MovieDAO:
         """Получаем json, добавляем новый фильм в бд"""
         model = self.model
         movie = model(**data)
-        with db.session.begin():
-            db.session.add(movie)
+        self.session.add(movie)
+        self.session.commit()
 
     def put_movie(self, uid: int, data: dict):
         """Обновляет фильм"""
