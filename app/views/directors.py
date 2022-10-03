@@ -29,8 +29,6 @@ class GenreView(Resource):
     def get(self, uid):
         """Возвращает режиссера по id"""
         genre = director_service.get_director_by_id(uid)
-        if type(genre) != dict:
-            return genre, 404
         return director_schema.dump(genre), 200
 
     def put(self, uid):

@@ -29,8 +29,6 @@ class GenreView(Resource):
     def get(self, uid):
         """Возвращает жанр по id"""
         genre = genre_service.get_genre_by_id(uid)
-        if type(genre) != dict:
-            return genre, 404
         return genre_schema.dump(genre), 200
 
     def put(self, uid):

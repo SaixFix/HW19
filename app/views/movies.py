@@ -29,8 +29,6 @@ class MovieView(Resource):
     def get(self, uid):
         """Получаем фильм по id"""
         movie = movie_service.get_film_by_id(uid)
-        if type(movie) != dict:
-            return movie, 404
         return movie_schema.dump(movie), 200
 
     def put(self, uid):
