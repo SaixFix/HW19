@@ -4,7 +4,7 @@ from app.dao.models.director import Director
 class DirectorDAO:
 
     def __init__(self, session):
-        """Получает модель и схему"""
+        """Получает сессию"""
         self.session = session
 
     def get_all(self) -> list[dict]:
