@@ -31,3 +31,8 @@ class UserWiew(Resource):
         req_json = request.json
         user_service.update_user(uid, req_json)
         return f" Пользователь {uid} обновлен", 201
+
+    def delete(self, uid):
+        """Удаляем пользователя по id"""
+        user_service.delete_user(uid)
+        return "", 204

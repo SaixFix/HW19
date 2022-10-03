@@ -28,4 +28,10 @@ class UserDAO:
 
         return User
 
+    def delete_user(self, uid: int):
+        """Удаляем пользователя по id"""
+        director = self.get_one_by_id(uid)
+        self.session.delete(director)
+        self.session.commit()
+
 

@@ -25,3 +25,6 @@ class UserService:
             user.username = data.get("role")
 
         self.dao.update_user(user)
+
+    def delete_user(self, uid: int):
+        self.dao.delete_user(uid)
