@@ -1,4 +1,4 @@
-
+from app.dao.models.director import Director
 
 
 class DirectorDAO:
@@ -9,40 +9,27 @@ class DirectorDAO:
 
     def get_all(self) -> list[dict]:
         """Возвращает список всех данных"""
-        genres = self.model.query.all()
-        return self.schema(many=True).dump(genres)
+        return self.session.query(Director).all()
+
+    def get_director_by_id(self, did: int) -> dict:
+        """Получаем режиссера по id либо ошибка в str"""
+        return self.session.query(Director).get(did)
 
     def add_director(self, data: dict):
         """Получаем json, добавляем нового режиссера в бд"""
-        model = self.model
-        genre = model(**data)
-        with db.session.begin():
-            db.session.add(genre)
+        movie = Director(**data)
+        self.session.add(movie)
+        self.session.commit()
 
-    def put_director(self, uid: int, data: dict):
+    def put_director(self, director: dict):
         """Обновляет режиссера"""
-        model = self.model
-        genre = model.query.filter(model.id == uid).one()
+        self.session.add(director)
+        self.session.commit()
 
-        if "name" in data:
-            genre.name = data.get("name")
+        return director
 
-        db.session.add(genre)
-        db.session.commit()
-
-    def get_director_by_id(self, uid: int) -> dict:
-        """Получаем режиссера по id либо ошибка в str"""
-        model = self.model
-        schema = self.schema
-        try:
-            genre = model.query.filter(model.id == uid).one()
-            return schema().dump(genre)
-        except Exception as error:
-            return str(error)
-
-    def delete_director(self, uid: int):
+    def delete_director(self, did: int):
         """Удаляем режиссера по id"""
-        model = self.model
-        genre = model.query.filter(model.id == uid).one()
-        db.session.delete(genre)
-        db.session.commit()
+        director = self.get_director_by_id(did)
+        self.session.delete(director)
+        self.session.commit()

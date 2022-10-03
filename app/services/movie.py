@@ -6,7 +6,7 @@ class MovieService:
         self.dao = dao
 
     def get_all(self) -> list[dict]:
-       return self.dao.get_all()
+        return self.dao.get_all()
 
     def add_movie(self, data: dict):
         return self.dao.add_movie(data)
