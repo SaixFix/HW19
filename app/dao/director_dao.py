@@ -1,12 +1,11 @@
-from app.setup_db import db
+
 
 
 class DirectorDAO:
 
-    def __init__(self, model, schema):
+    def __init__(self, session):
         """Получает модель и схему"""
-        self.model = model
-        self.schema = schema
+        self.session = session
 
     def get_all(self) -> list[dict]:
         """Возвращает список всех данных"""
