@@ -1,5 +1,7 @@
 from flask import request
 from flask_restx import Namespace, Resource
+
+from app.container import auth_service
 from app.helpers.decorators import auth_required
 
 auth_ns = Namespace("auth")
@@ -17,3 +19,5 @@ class AuthsView(Resource):
             return "", 400
 
         token = auth_service.generate_tokens(username, password)
+
+        return token, 201

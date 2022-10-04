@@ -1,4 +1,6 @@
+import base64
 import hashlib
+import hmac
 
 from app.dao.user_dao import UserDAO
 from app.config import Config
@@ -45,3 +47,15 @@ class UserService:
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS
         ).decode("utf-8", "ignore")
+
+    def compare_passwords(self, password_hash, other_password) -> bool:
+        decoded_digest = base64.b16decode(password_hash)
+
+        hash_digest = hashlib.pbkdf2_hmac(
+            'sha256',
+            other_password.encode('utf-8'),  # Convert the password to bytes
+            PWD_HASH_SALT,
+            PWD_HASH_ITERATIONS
+        )
+
+        return hmac.compare_digest(decoded_digest, hash_digest)
