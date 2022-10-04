@@ -1,5 +1,5 @@
-from flask_restx import Namespace, Resource
 from flask import request
+from flask_restx import Namespace, Resource
 
 from app.container import genre_service
 from app.dao.models.genre import GenreSchema
@@ -42,4 +42,6 @@ class GenreView(Resource):
         """Удаляет жанр по id"""
         genre_service.delete_genre(uid)
         return "", 204
+
+
 

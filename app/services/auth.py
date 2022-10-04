@@ -1,14 +1,16 @@
 import calendar
 import datetime
 
-import jwt
+
 from flask_restx import abort
+import jwt
 
 from app.helpers.constants import JWT_SECRET, JWT_ALGORITHM
 from app.services.user import UserService
 
 
 class AuthService:
+
     def __init__(self, user_service: UserService):
         self.user_service = user_service
 
@@ -41,4 +43,5 @@ class AuthService:
             "acceess_token": acceess_token,
             "refresh_token": refresh_token
         }
+
 

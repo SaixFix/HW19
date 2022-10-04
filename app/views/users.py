@@ -25,7 +25,7 @@ class UsersView(Resource):
         return f" Пользователь {req_json['username']} добавлен", 201
 
 @user_ns.route('/<int:uid>')
-class UserWiew(Resource):
+class UserView(Resource):
     def put(self, uid):
         """Обновление юзера по id"""
         req_json = request.json
@@ -37,3 +37,11 @@ class UserWiew(Resource):
         """Удаляем пользователя по id"""
         user_service.delete_user(uid)
         return "", 204
+
+
+@user_ns.route('/<username>')
+class UserView(Resource):
+    def get(self, username):
+        """Получаем пользователя по username"""
+        user = user_service.get_one_by_username(username)
+        return user_schema.dump(user), 200

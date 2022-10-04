@@ -40,22 +40,21 @@ class UserService:
     def delete_user(self, uid: int):
         self.dao.delete_user(uid)
 
-    def generated_password(self, password):
-        return hashlib.pbkdf2_hmac(
-            'sha256',
-            password.encode('utf-8'),  # Convert the password to bytes
-            PWD_HASH_SALT,
-            PWD_HASH_ITERATIONS
-        ).decode("utf-8", "ignore")
-
-    def compare_passwords(self, password_hash, other_password) -> bool:
-        decoded_digest = base64.b16decode(password_hash)
-
+    def generated_password(self, password) -> bytes:
         hash_digest = hashlib.pbkdf2_hmac(
             'sha256',
-            other_password.encode('utf-8'),  # Convert the password to bytes
+            password.encode('utf-8'),
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS
         )
+        return base64.b64encode(hash_digest)
 
-        return hmac.compare_digest(decoded_digest, hash_digest)
+    def compare_passwords(self, password_hash, other_password) -> bool:
+        decode_digest = base64.b64decode(password_hash)
+        hash_digest = hashlib.pbkdf2_hmac(
+            'sha256',
+            other_password.encode('utf-8'),
+            PWD_HASH_SALT,
+            PWD_HASH_ITERATIONS
+        )
+        return hmac.compare_digest(decode_digest, hash_digest)
