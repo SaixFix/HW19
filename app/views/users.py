@@ -3,7 +3,7 @@ from flask_restx import Namespace, Resource
 
 from app.container import user_service
 from app.dao.models.user import UserSchema
-from app.dao.user_dao import UserDAO
+from app.helpers.decorators import admin_required
 
 user_ns = Namespace('users')
 
@@ -32,6 +32,7 @@ class UserWiew(Resource):
         user_service.update_user(uid, req_json)
         return f" Пользователь {uid} обновлен", 201
 
+    @admin_required
     def delete(self, uid):
         """Удаляем пользователя по id"""
         user_service.delete_user(uid)

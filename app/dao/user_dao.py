@@ -15,6 +15,10 @@ class UserDAO:
         """Получаем юзера по id"""
         return self.session.query(User).get(uid)
 
+    def get_one_by_username(self, username):
+        "Получаем юзера по username"
+        return self.session.quer(User).filter(User.username == username).first()
+
     def add_new_user(self, data: dict):
         """Получаем словарь, добавляем юзера"""
         user = User(**data)
