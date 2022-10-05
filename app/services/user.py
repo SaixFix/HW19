@@ -50,6 +50,7 @@ class UserService:
         return base64.b64encode(hash_digest)
 
     def compare_passwords(self, password_hash, other_password) -> bool:
+        """Принимаем хешированныйц пароль и строкой, сравниваем их. Возвращаем bool"""
         decode_digest = base64.b64decode(password_hash)
         hash_digest = hashlib.pbkdf2_hmac(
             'sha256',

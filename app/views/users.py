@@ -13,19 +13,22 @@ users_schema = UserSchema(many=True)
 
 @user_ns.route('/')
 class UsersView(Resource):
+    @admin_required
     def get(self):
         """Показывает всех юзеров"""
         users = user_service.get_all()
         return users_schema.dump(users), 200
 
     def post(self):
-        """Добавление нового юзера"""
+        """регистрация нового юзера"""
         req_json = request.json
         user_service.add_new_user(req_json)
         return f" Пользователь {req_json['username']} добавлен", 201
 
+
 @user_ns.route('/<int:uid>')
 class UserView(Resource):
+    @admin_required
     def put(self, uid):
         """Обновление юзера по id"""
         req_json = request.json
@@ -41,6 +44,7 @@ class UserView(Resource):
 
 @user_ns.route('/<username>')
 class UserView(Resource):
+    @admin_required
     def get(self, username):
         """Получаем пользователя по username"""
         user = user_service.get_one_by_username(username)

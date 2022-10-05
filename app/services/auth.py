@@ -14,14 +14,19 @@ class AuthService:
     def __init__(self, user_service: UserService):
         self.user_service = user_service
 
-    def generate_token(self, username, password):
+    def generate_token(self, username, password, is_refresh=False):
+        """Принимаем лони, пароль и наличие рефрешь токина и возвращаем новые токены"""
+        #получаем юзера по нику
         user = self.user_service.get_one_by_username(username)
 
+        #проверяем существование данного юзера
         if user is None:
             raise abort(404)
 
-        if not self.user_service.compare_passwords(user.password, password):
-            abort(400)
+        #проверяем соответсвие паролей если это создание новых токенов
+        if not is_refresh:
+            if not self.user_service.compare_passwords(user.password, password):
+                abort(400)
 
         data = {
             "username": user.username,
@@ -43,5 +48,12 @@ class AuthService:
             "acceess_token": acceess_token,
             "refresh_token": refresh_token
         }
+
+    def approve_refresh_token(self, refresh_token):
+        """Декодирум рефреш токен, извлекаем юзернейм и возвращаем новый токен"""
+        data = jwt.decode(jwt=refresh_token, key=JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        username = data.get("username")
+
+        return self.generate_token(username, None, is_refresh=True)
 
 
