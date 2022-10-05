@@ -1,2 +1,3 @@
-# homework from 18 lesson
-Домашняя работа по flask+rerstx+marshmellow
+# homework from 19 lesson
+Домашняя работа по flask+rerstx+marshmellow+аунтификация
+Модификация домашней работы номер 18, добавлением аунтификации и небольшая переделка структуры
